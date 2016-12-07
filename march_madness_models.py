@@ -116,7 +116,7 @@ class ModelPredictor(object):
                 
         # get the x values
         row = mmg.get_predictors_dif(min_index_team, max_index_team, self.year, self.dfs_arr)
-        
+
         # predict probability team 1 win under model
         p_hat = self.model.predict_proba(self.scaler.transform(row.reshape(1,-1)))[0,1]
         

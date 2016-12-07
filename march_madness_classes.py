@@ -262,6 +262,8 @@ class Tournament(object):
         
     # compare our tournament to other    
     def compare_to_dif_tournament(self, act_results, dif_results, print_res=True, scoring='ESPN'):
+        
+        # dictionaries
         act_results_dict = {0 : act_results.entire_bracket,
                             1 : act_results.round_1_df,
                             2 : act_results.round_2_df, 
@@ -287,27 +289,39 @@ class Tournament(object):
                             6 : self.round_6_df}
         
         differences = []
+        
+        # do it for each round
         for i in range(7):
             dif_results_df = dif_results_dict.get(i)
             our_results_df = our_results_dict.get(i)
             act_results_df = act_results_dict.get(i)
             
+            # indexes of different choices
             dif_index = dif_results_df.loc[dif_results_df["Prediction"] != our_results_df["Prediction"]].index
+            dif_n = dif_index.shape[0]
+            
+            # T/F used for sorting
+            our_model_correct_tf = our_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]
+            dif_model_correct_tf = dif_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]
             
             # get number correct by each model, when there is disagreement
-            our_model_correct = our_results_df.loc[dif_index].loc[our_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]].shape[0]
-        
-            dif_model_correct = dif_results_df.loc[dif_index].loc[dif_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]].shape[0]
+            our_model_correct_n = our_results_df.loc[dif_index].loc[our_model_correct_tf].shape[0]
+            dif_model_correct_n = dif_results_df.loc[dif_index].loc[dif_model_correct_tf].shape[0]
             
+            # append to our array
+            differences.append((dif_n, our_model_correct_n, dif_model_correct_n))
             
-            print our_model_correct
-            print dif_model_correct
-            print dif_index.shape[0]
+            # if we want to print the results
+        if print_res:
+            print "Number Correct Our Model     : {}, Number Correct Dif Model : {}".format(differences[0][1], differences[0][2])
+            print "R1: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[1][1], differences[1][2])
+            print "R2: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[2][1], differences[2][2])
+            print "R3: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[3][1], differences[3][2])
+            print "R4: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[4][1], differences[4][2])
+            print "R5: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[5][1], differences[5][2])
+            print "R6: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[6][1], differences[6][2])
             
-            
-            print a
-            
-
+        return differences[0]
         
     # score model vs true results
     def score_tournament(self, actual_results, print_res=False, scoring='ESPN'):
