@@ -15,7 +15,6 @@ import march_madness_models as mmm
 # returns 2 DataFrames (pred, resp) --> X values (difference between min index team x and max index team x) , y values (indicator that min_index team won.
 
 # note: if we pass the include_scoring_dif flag - the y_value returned is the score difference in the game
-### PRIMAR
 def generate_multiple_years_of_games(years, 
                                      seed_list_arr, 
                                      slot_list_arr, 

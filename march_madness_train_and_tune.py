@@ -11,15 +11,14 @@ import march_madness_games as mmg
 
 # train_test_split takes in a window (number of years to include in training set) and the year that we want to test on and returns 
 # a x_train, y_train, x_test, and y_test. 
-
-
-def train_test_split(window, test_yr, seeds_arr, slots_arr, tourney_arr, column_names, predictor_dfs):
+def train_test_split(window, test_yr, seeds_arr, slots_arr, tourney_arr, column_names, predictor_dfs, scoring_dif=False):
     x_train, y_train = mmg.generate_multiple_years_of_games(range(test_yr - window, test_yr),
                                      seeds_arr, 
                                      slots_arr, 
                                      tourney_arr, 
                                      column_names, 
-                                     predictor_dfs
+                                     predictor_dfs,
+                                     scoring_dif=scoring_dif
                                      )
 
     x_test, y_test = mmg.generate_multiple_years_of_games([test_yr],
@@ -27,11 +26,11 @@ def train_test_split(window, test_yr, seeds_arr, slots_arr, tourney_arr, column_
                                      slots_arr, 
                                      tourney_arr, 
                                      column_names, 
-                                     predictor_dfs
+                                     predictor_dfs,
+                                     scoring_dif=scoring_dif
                                      )
 
     return x_train, y_train, x_test, y_test
-
 
 
 # cross_val_c takes in a window (number of years to include in training set) and outputs the scores for each value of C for each    # test year. 
