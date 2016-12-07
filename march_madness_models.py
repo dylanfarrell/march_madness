@@ -140,6 +140,7 @@ class ModelPredictor(object):
                 elif self.game_count < 32 + 16 + 8 + 4 + 2 + 1:
                     cur_round = 6
                 else:
+                    print self.game_count
                     print "issue with game count"
                     return 
                 
@@ -159,7 +160,7 @@ class ModelPredictor(object):
                 max_index_seed = int(max_index_seed_str[1:3])  
                 
                 # confirm not a play in game, iterate
-                if self.game_count == 0 and len(min_index_seed_str) == 4 and len(max_index_seed_str) == 4:
+                if len(min_index_seed_str) == 4 and len(max_index_seed_str) == 4:
                     # dont iterate
                     self.game_count = self.game_count
                 else:

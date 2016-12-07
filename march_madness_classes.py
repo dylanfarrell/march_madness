@@ -260,6 +260,55 @@ class Tournament(object):
                                               self.round_6_df])
         self.entire_bracket.reset_index(inplace = True, drop=True)
         
+    # compare our tournament to other    
+    def compare_to_dif_tournament(self, act_results, dif_results, print_res=True, scoring='ESPN'):
+        act_results_dict = {0 : act_results.entire_bracket,
+                            1 : act_results.round_1_df,
+                            2 : act_results.round_2_df, 
+                            3 : act_results.round_3_df, 
+                            4 : act_results.round_4_df, 
+                            5 : act_results.round_5_df, 
+                            6 : act_results.round_6_df}
+        
+        dif_results_dict = {0 : dif_results.entire_bracket,
+                            1 : dif_results.round_1_df,
+                            2 : dif_results.round_2_df, 
+                            3 : dif_results.round_3_df, 
+                            4 : dif_results.round_4_df, 
+                            5 : dif_results.round_5_df, 
+                            6 : dif_results.round_6_df}
+        
+        our_results_dict = {0 : self.entire_bracket,
+                            1 : self.round_1_df,
+                            2 : self.round_2_df, 
+                            3 : self.round_3_df, 
+                            4 : self.round_4_df, 
+                            5 : self.round_5_df, 
+                            6 : self.round_6_df}
+        
+        differences = []
+        for i in range(7):
+            dif_results_df = dif_results_dict.get(i)
+            our_results_df = our_results_dict.get(i)
+            act_results_df = act_results_dict.get(i)
+            
+            dif_index = dif_results_df.loc[dif_results_df["Prediction"] != our_results_df["Prediction"]].index
+            
+            # get number correct by each model, when there is disagreement
+            our_model_correct = our_results_df.loc[dif_index].loc[our_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]].shape[0]
+        
+            dif_model_correct = dif_results_df.loc[dif_index].loc[dif_results_df.loc[dif_index, "Prediction"] == act_results_df.loc[dif_index, "Prediction"]].shape[0]
+            
+            
+            print our_model_correct
+            print dif_model_correct
+            print dif_index.shape[0]
+            
+            
+            print a
+            
+
+        
     # score model vs true results
     def score_tournament(self, actual_results, print_res=False, scoring='ESPN'):
         # extract the df from the actual results tournament
