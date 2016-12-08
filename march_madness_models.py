@@ -150,6 +150,7 @@ class ModelPredictor(object):
                     cooling_factor = 1
                 else:
                     cooling_factor = self.cooling.get(cur_round)
+                    
                 
                 # get the seeds to see which team is the underdog
                 min_index_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == min_index_team, "Seed"].values[0]
