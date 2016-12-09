@@ -440,6 +440,8 @@ class Simulator(object):
     
     # run the tournament
     def run_tournament(self, scoring="ESPN"):
+        self.model.game_count=0
+        
         # generate and run a tournament
         tournament = Tournament(self.seeds, self.slots, self.model)
         
@@ -475,4 +477,200 @@ class Simulator(object):
     
     # score the tournament
     def score_tournament(self, actual_results, print_res=True, scoring="ESPN"):
-        return self.tournament_prediction.score_tournament(actual_results, print_res=print_res, scoring=scoring)        
+        return self.tournament_prediction.score_tournament(actual_results, print_res=print_res, scoring=scoring)    
+    
+    ########################################################################################################
+
+### Ensemble Class
+### arguments = seeds, slots, and head to head model
+### runs the tournament 10 times
+
+### METHODS
+# 1) init --> sets up model, seeds, slots
+
+    
+
+# used to simulate a tournament n times and output the combined results
+class Ensemble(object):
+    def __init__(self, 
+                 seeds, 
+                 slots, 
+                 head_to_head_model, 
+                 scaler, 
+                 predictor_dfs, 
+                 year):
+        
+        self.seeds = seeds
+        self.slots = slots
+        self.head_to_head_model = head_to_head_model
+        self.scaler = scaler
+        self.predictor_dfs = predictor_dfs
+        self.year = year
+        self.tourney_arr = []
+        
+        # setup low seed tourney
+        top_seed_model = mmm.BasicPredictor()
+        top_seed_tourney = Tournament(self.seeds, self.slots, top_seed_model)
+        
+        # setup unbiased tourney
+        unbiased_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                            self.scaler, 
+                                            self.predictor_dfs, 
+                                            self.year, 
+                                            self.seeds)
+        unbiased_tourney = Tournament(self.seeds, self.slots, unbiased_model)
+            
+        # setup top_seed tourney dif 1
+        top_seed_dif_1_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                            self.scaler, 
+                                            self.predictor_dfs, 
+                                            self.year, 
+                                            self.seeds,
+                                            other_bracket_arr=[top_seed_tourney.entire_bracket])
+        top_seed_dif_1_tourney = Tournament(self.seeds, self.slots, top_seed_dif_1_model)
+        
+        # setup top_seed tourney dif 2
+        top_seed_dif_2_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                            self.scaler, 
+                                            self.predictor_dfs, 
+                                            self.year, 
+                                            self.seeds,
+                                            other_bracket_arr=[top_seed_tourney.entire_bracket,
+                                                           unbiased_tourney.entire_bracket])
+        top_seed_dif_2_tourney = Tournament(self.seeds, self.slots, top_seed_dif_2_model)
+        
+        # setup top_seed tourney dif 3
+        top_seed_dif_3_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                          self.scaler,
+                                          self.predictor_dfs,
+                                          self.year, 
+                                          self.seeds,
+                                          other_bracket_arr=[top_seed_tourney.entire_bracket,
+                                                             unbiased_tourney.entire_bracket,
+                                                             top_seed_dif_1_tourney.entire_bracket])
+        top_seed_dif_3_tourney = Tournament(self.seeds, self.slots, top_seed_dif_3_model)
+        
+        # setup early round bias
+        early_round_bias = {6:0, 5:0, 4:0, 3:10, 2:20, 1:20}
+        early_round_bias_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                                    self.scaler,
+                                                    self.predictor_dfs,
+                                                    self.year, 
+                                                    self.seeds,
+                                                    higher_seed_bias=True,
+                                                    higher_seed_bias_delta=.005, 
+                                                    cooling = early_round_bias)
+        early_round_bias_tourney = Tournament(self.seeds, self.slots, early_round_bias_model)
+        
+        # setup early round_bias dif 1
+        early_round_bias_model_dif_1 = mmm.ModelPredictor(self.head_to_head_model, 
+                                            self.scaler,
+                                            self.predictor_dfs,
+                                            self.year, 
+                                            self.seeds,
+                                            other_bracket_arr=[early_round_bias_tourney.entire_bracket])
+        
+        early_round_bias_tourney_dif_1 = Tournament(self.seeds, 
+                                                        self.slots, 
+                                                        early_round_bias_model_dif_1)
+        # setup early round_bias dif 1
+        early_round_bias_model_dif_2 = mmm.ModelPredictor(self.head_to_head_model, 
+                                    self.scaler,
+                                    self.predictor_dfs,
+                                    self.year, 
+                                    self.seeds,
+                                    other_bracket_arr=[early_round_bias_tourney.entire_bracket,
+                                                       early_round_bias_tourney_dif_1.entire_bracket])
+        
+        early_round_bias_tourney_dif_2 = Tournament(self.seeds, 
+                                                        self.slots, 
+                                                        early_round_bias_model_dif_2)
+        
+        
+        # setup later round bias
+        later_round_bias= {6:10, 5:10, 4:20, 3:30, 2:0, 1:0}
+        later_round_bias_model = mmm.ModelPredictor(self.head_to_head_model, 
+                                                    self.scaler,
+                                                    self.predictor_dfs,
+                                                    self.year, 
+                                                    self.seeds,
+                                                    higher_seed_bias=True,
+                                                    higher_seed_bias_delta=.005, 
+                                                    cooling = later_round_bias)
+        later_round_bias_tourney = Tournament(self.seeds, self.slots, later_round_bias_model)
+        
+        # setup later round_bias dif 1
+        later_round_bias_model_dif_1 = mmm.ModelPredictor(self.head_to_head_model, 
+                                            self.scaler,
+                                            self.predictor_dfs,
+                                            self.year, 
+                                            self.seeds,
+                                            other_bracket_arr=[later_round_bias_tourney.entire_bracket])
+        
+        later_round_bias_tourney_dif_1 = Tournament(self.seeds, 
+                                                        self.slots, 
+                                                        later_round_bias_model_dif_1)
+        # setup early round_bias dif 1
+        later_round_bias_model_dif_2 = mmm.ModelPredictor(self.head_to_head_model, 
+                                    self.scaler,
+                                    self.predictor_dfs,
+                                    self.year, 
+                                    self.seeds,
+                                    other_bracket_arr=[later_round_bias_tourney.entire_bracket,
+                                                       later_round_bias_tourney_dif_1.entire_bracket])
+        
+        later_round_bias_tourney_dif_2 = Tournament(self.seeds, 
+                                                        self.slots, 
+                                                        later_round_bias_model_dif_2)
+        
+        # append to our array of tourneys
+        self.tourney_arr = [unbiased_tourney, 
+                            top_seed_dif_1_tourney, 
+                            top_seed_dif_2_tourney, 
+                            top_seed_dif_3_tourney,
+                            early_round_bias_tourney,
+                            early_round_bias_tourney_dif_1,
+                            early_round_bias_tourney_dif_2,
+                            later_round_bias_tourney,
+                            later_round_bias_tourney_dif_1,
+                            later_round_bias_tourney_dif_2]
+    
+       
+    # simulate the tournament n times
+    def score_ind_tournament(self, actual_results, index, print_res=False, scoring="ESPN"):
+        tourney = self.tourney_arr[index]
+        
+        return tourney.score_tournament(actual_results, print_res=print_res, scoring=scoring)[0]
+    
+    # score the tournament
+    def score_tournament(self, actual_results, print_res=False, scoring="ESPN"):
+        scores = np.zeros(10)
+        for i in range(10):
+            scores[i] = self.score_ind_tournament(actual_results, i, print_res=print_res, scoring="ESPN")
+        return scores
+    
+    # compute dif matrix
+    def compute_dif_matrix(self, actual_results):
+        self.dif_matrix = np.zeros((10, 10))
+        for i in range(10):
+            for j in range(10):
+                tourney_1 = self.tourney_arr[i]
+                tourney_2 = self.tourney_arr[j]
+                
+                self.dif_matrix[i, j] = tourney_1.compare_to_dif_tournament(actual_results, tourney_2, print_res=False)[0]
+        return self.dif_matrix
+                
+    def avg_game_dif(self):
+        sum_of_dif_vect = np.sum(self.dif_matrix, axis=0)
+        
+        avg_vect = sum_of_dif_vect / 9.
+        
+        return avg_vect
+    
+    def compute_dif_vect(self, actual_results, other_results):
+        self.dif_vect = np.zeros(10)
+        for i in range(10):
+            self.dif_vect[i], x, y = self.tourney_arr[i].compare_to_dif_tournament(actual_results, other_results, print_res=False)
+            
+        return self.dif_vect
+            

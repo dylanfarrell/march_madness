@@ -84,11 +84,13 @@ class ModelPredictor(object):
                  scaler, 
                  dfs_arr, 
                  year, 
-                 seeds_df=None,
+                 seeds_df,
                  simulation=False,
                  higher_seed_bias=False,
-                 higher_seed_bias_delta=.05,
-                 cooling=None
+                 higher_seed_bias_delta=.075,
+                 cooling=None,
+                 other_bracket_arr=[],
+                 other_bracket_bias_delta = .1
                  ):
         
         self.model = model
@@ -100,6 +102,8 @@ class ModelPredictor(object):
         self.higher_seed_bias = higher_seed_bias
         self.higher_seed_bias_delta = higher_seed_bias_delta
         self.cooling=cooling
+        self.other_bracket_arr = other_bracket_arr
+        self.other_bracket_bias_delta = other_bracket_bias_delta
         
         # used to check what round we are in
         self.game_count = 0
@@ -119,71 +123,144 @@ class ModelPredictor(object):
 
         # predict probability team 1 win under model
         p_hat = self.model.predict_proba(self.scaler.transform(row.reshape(1,-1)))[0,1]
+                        
+        # get the seeds
+        team_seeds = self.__get_seeds(min_index_team, max_index_team)
+        min_index_seed, min_index_seed_str, max_index_seed, max_index_seed_str = team_seeds
         
-        # if bias towards the lower seed
+        # get the current round of the game
+        cur_round = self.__get_cur_round()
+
+        # update the game count
+        self.__update_game_count(min_index_seed_str, max_index_seed_str)
+
+        # check if we want to induce upsets, update p_hat
         if self.higher_seed_bias:
-            if self.seeds_df is None:
-                print "you must pass in the seed dataframe to use higher seed bias"
-                return
+            # check if cooling
+            if self.cooling is None:
+                bias_delta = self.higher_seed_bias_delta
             else:
-                # check which round we are in
-                if self.game_count < 32:
-                    cur_round = 1
-                elif self.game_count < 32 + 16:
-                    cur_round = 2
-                elif self.game_count < 32 + 16 + 8:
-                    cur_round = 3
-                elif self.game_count < 32 + 16 + 8 + 4:
-                    cur_round = 4
-                elif self.game_count < 32 + 16 + 8 + 4 + 2:
-                    cur_round = 5
-                elif self.game_count < 32 + 16 + 8 + 4 + 2 + 1:
-                    cur_round = 6
-                else:
-                    print self.game_count
-                    print "issue with game count"
-                    return 
+                # update the bias
+                cooling_factor = self.cooling.get(cur_round)
+                bias_delta = self.higher_seed_bias_delta * cooling_factor
+
+            # adjust our p_hat
+            p_hat = self.__bias_p_hat_upset(p_hat, bias_delta, min_index_seed, max_index_seed)
                 
-                # if there is a "cooling" (i.e. change probability of upset given round)
-                if self.cooling is None:
-                    # update the delta
-                    cooling_factor = 1
-                else:
-                    cooling_factor = self.cooling.get(cur_round)
-                    
-                
-                # get the seeds to see which team is the underdog
-                min_index_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == min_index_team, "Seed"].values[0]
-                max_index_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == max_index_team, "Seed"].values[0]
-                
-                # convert the seeds to ints for comparieson
-                min_index_seed = int(min_index_seed_str[1:3])
-                max_index_seed = int(max_index_seed_str[1:3])  
-                
-                # confirm not a play in game, iterate
-                if len(min_index_seed_str) == 4 and len(max_index_seed_str) == 4:
-                    # dont iterate
-                    self.game_count = self.game_count
-                else:
-                    # iterate if not a play in game
-                    self.game_count = self.game_count + 1
-                
-                # Update p_hat given the underdog status on one of the teams
-                if min_index_seed < max_index_seed:
-                    # update p_hat to predict max_index more often
-                    p_hat = p_hat - self.higher_seed_bias_delta * cooling_factor
-                
-                # if max index team is the lower seed
-                elif max_index_seed < min_index_seed:
-                    # update p_hat to predict min_index more often
-                    p_hat = p_hat + self.higher_seed_bias_delta * cooling_factor
-                
-                # if they are the same seed, leave it alone
-                else:
-                    p_hat = p_hat
+        # check if we want to induce difference from other brackets, update p_hat
+        if len(self.other_bracket_arr) != 0:
+            # adjust our p_hat
+            p_hat = self.__bias_p_hat_dif(p_hat, min_index_team, max_index_team)
         
+        # make final prediction, determinisitcally or with biased coin flip
+        return self.__make_prediction(p_hat, self.simulation, min_index_team, max_index_team)
+          
+    # gets seeds of team 1 and team 2
+    def __get_seeds(self, team_1, team_2):
+        # get the seeds to see which team is the underdog
+        team_1_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == team_1, "Seed"].values[0]
+        team_2_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == team_2, "Seed"].values[0]
+
+        # convert the seeds to ints for comparieson
+        team_1_seed = int(team_1_seed_str[1:3])
+        team_2_seed = int(team_2_seed_str[1:3])  
+        
+        return team_1_seed, team_1_seed_str, team_2_seed, team_2_seed_str
+    
+    # checks if we have a play in game
+    def __check_playin_game(self, team_1_seed_str, team_2_seed_str):
+        # confirm not a play in game, iterate
+        return len(team_1_seed_str) == 4 and len(team_2_seed_str) == 4
+        
+    # gets the current round of the game
+    def __get_cur_round(self):
+        # check which round we are in
+        if self.game_count < 32:
+            return 1
+        elif self.game_count < 32 + 16:
+            return 2
+        elif self.game_count < 32 + 16 + 8:
+            return 3
+        elif self.game_count < 32 + 16 + 8 + 4:
+            return 4
+        elif self.game_count < 32 + 16 + 8 + 4 + 2:
+            return 5
+        elif self.game_count < 32 + 16 + 8 + 4 + 2 + 1:
+            return 6
+        else:
+            print self.game_count
+            print "issue with game count"
+            return 
+     
+    # updates game count, if not a playin game
+    def __update_game_count(self, min_index_seed_str, max_index_seed_str):
+        # check if play in game, iterate game count if so
+        if self.__check_playin_game(min_index_seed_str, max_index_seed_str):
+            self.game_count = self.game_count
+        else: 
+            self.game_count = self.game_count + 1
+        
+     
+    # biases the p_hat
+    def __bias_p_hat_upset(self, p_hat, bias, min_index_seed, max_index_seed):
+         # Update p_hat given the underdog status on one of the teams
+        if min_index_seed < max_index_seed:
+            # update p_hat to predict max_index more often
+            return p_hat - bias
+
+        # if max index team is the lower seed
+        elif max_index_seed < min_index_seed:
+            # update p_hat to predict min_index more often
+            return p_hat + bias
+      
+    # biases the p_hat
+    def __bias_p_hat_dif(self, p_hat, min_index_team, max_index_team):
+        # if we care about differentiating from another bracket
+        if len(self.other_bracket_arr) != 0:
+            # buffers
+            other_bracket_min_index_count = 0
+            other_bracket_max_index_count = 0
+                         
+            # count similarities
+            for other_bracket in self.other_bracket_arr:
+                # predicted team by other bracket
+                prediction = other_bracket.iloc[self.game_count - 1]["Prediction"]
+                
+                # iterate count of similiarity
+                if int(prediction) == min_index_team:
+                    other_bracket_min_index_count = other_bracket_min_index_count + 1
+                elif int(prediction) == max_index_team:
+                    other_bracket_max_index_count = other_bracket_max_index_count + 1
+              
+            # update bias if one of these teams was picked by other brackets
+            if other_bracket_min_index_count + other_bracket_max_index_count != 0:
+                # min index percent
+                percent_min_index = float(other_bracket_min_index_count) / (other_bracket_min_index_count + other_bracket_max_index_count)
+                
+                # max index percent
+                percent_max_index = float(other_bracket_max_index_count) / (other_bracket_min_index_count + other_bracket_max_index_count)
+                    
+                # if most brackets pick min index
+                if percent_max_index < percent_min_index:
+                    return p_hat - self.other_bracket_bias_delta
+                # if most brackets pick max index, bias probability towards the min index
+                else:
+                    return p_hat + self.other_bracket_bias_delta  
+              
+            # otherwise, just use our model
+            else:
+                return p_hat
+                             
+        # dont update bias, if we are not checking other brackets
+        else:
+            return p_hat
+                             
+               
+        
+    # makes prediction
+    def __make_prediction(self, p_hat, simulation, min_index_team, max_index_team):
         # if simulation, return min_index team with prob p_hat
-        if self.simulation:
+        if simulation:
             random_unif = rand.uniform(0,1)
      
             # return min_index with probability p_hat
@@ -192,13 +269,14 @@ class ModelPredictor(object):
             else:
                 return max_index_team
         
-        # if not a simulation, return the prediction of the model (or adjusted model)
+        # if not a simulation, return the prediction of the (possibly biased) model
         else:
             if p_hat > .5:
                 return min_index_team
             else:
                 return max_index_team    
-# 
+    
+
 # EXPECTED POINTS PREDICTOR ---------------------------------------------------------------------------------------------------
 # predict based on expected points from the simulation   
 # looks up the expected number of points 2 teams will score,
