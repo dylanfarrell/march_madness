@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<!--
+	Epilogue by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Epilogue by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="static/css/main.css" />
+	</head>
+	<body>
+		<!-- Header -->
+		<header id="header" class="alt">
+			<div class="inner">
+				<h1>Data Driven March Madness</h1>
+				<p>A Project by Rob Shaw, Spencer Evans, Daniel Alpert, and Sean Coleman</p>
+			</div>
+		</header>
+		<section id="cta" class="main special">
+			<h2>NCAA as a Markov Chain</h2>
+		</section>
+
+		<h4 class="step">1) Our Approach</h4>
+
+		<p class="description">In order to make a predict a bracket, we started first by collecting data which we thought would be qualitatively applicable to the results of the regular season. At a high level, we thought that the most important factors for predicting post-season success would be the number of wins a team has in the regular season as well as the quality of the opponents. However, we did not want to use arbitrary rankings of teams (such as seeding in the bracket) as our metric of the quality of an opponent, becuase we wanted our predictors to be independent of human bias. As such, we use a strategy published by Paul Kvam and Joel S. Sokol which models the NCAA as a Markov Chain. </p>
+
+		<div>
+			<img src="static/images/markov_chain_graphic.png" alt="">
+		</div>
+
+		<h4 class="step"> 2) Markov Chain Model </h4>
+
+		<p class="description">We model the NCAA as a Markov Chain, where each state is one of the teams in college basketball. At a given time, whichever state the Markov Chain is in is thought to be the "best" team in the country. During a given transition, the Markov Chain reevaluates its choice of "best" team, and transitions to another team with some probability $p_{ij}$. We create the $p_{ij}$ by asking the question, "Given that team $i$ has a score differential of against team $j$, what is the probability that team $i$ is better than team $j$?. We define this probability to be $p_{ij}$. </p>
+
+
+		<p class="description">To answer this question, we use structure of the NCAA basketball season. Teams in the same conference play against other twice, once on each team's home floor. Becuase of the "home and home" structure of the in-conference games, we can fit a logistic regression model on the probability of a team winning on the away game of a home and home series based on the score differential of the game on the home court. We define this probability to be $s_x^h$. </p>
+
+		<div>
+   			<img src="static/images/p(away win given home x) graph.png"  alt=""  />
+		</div>
+
+		<p class="description">The black bars represent the observed probability of the team winning on the away court given the scoring differential of $x$ on the home court. The smooth blue line represents the probability of the team winning on the away court calculated under the logistic regression model. As we would expect, the higher the score differential in the home game, the greater probability of winning on the away court.</p>
+
+		<p class="description">Now that we have calculated $s_x^h$, the probability of winning on the away court given a score differential of $x$ on the home court, we can find $r_x^h$, the probability that team $i$ is better than team $j$, given the scoring differential of $x$ on the home game. To do this, we find the value of $x$, such that $s_x^h = .5$. In this situation, the expected score on the away court is $0$. Thus, $x = 2h$, where $h$ is home court advantage, since there is 2 times the home court advantage swing between the games. We found this $x$ to be 14, so $h = 7$. Thus, we have $r_x^h = s_{x + h}^h$. We also have $r_x^a$ (the probability of being better given a score differential of $x$ on the road) to be $r_x^a =  1 - r_{-x}^h$.</p>
+
+		<p class="description">Now given these probabilites $r_x^h, r_x^a$, we instantiate the Markov Chain by creating edges between teams with weights proportional to $r_x^h$ and $r_x^a$, depending on the results of the games in the regular season. </p>
+
+		<p class="description">After constructing this Markov Chain, we now need to use it to rank the teams. To do this, we employ a strategy similiar to Google PageRank. The steady state distribution will have some interesting properties. Consider team $i$. If team $i$ has beaten a lot of teams by large margin, the markov chain will spend a lot of time in state $i$, since there will be many edges with heavy weights going into $i$, since edges weights are proportional to $r_x^h$. Now consider team $j$, which beat team $i$. Since $j$ beats $i$, there will be an edge with heavy weight between $i$ and $j$, meaning that there will be a lot of transitions from state $i$ to $j$. Since a lot of time was already spent in state $i$, a lot of time will also be spent in state $j$. Thus, $\pi_i$ is related not only to the number and dominance of the wins of a team, but also to the quality of the teams beaten. This is exactly what we were looking for in ranking teams: number of wins, dominance of wins, and quality of wins. Thus, the stationary distribution rankings allow us to rank the teams without needing human qualitiative bias! </p>
+
+		<p class="description">We calculate the steady state distribution in the following way: Since each state has a self loop and all states commmunicate with all other states, this Markov Chain is ergodic, which implies that the stationary distribution exists. Thus, to find $\pi$ such that $\pi = \pi P$, we find the first eigenvector of $P$, where $P$ is the transition matrix. </p>
+
+
+		<p class="description">As such, we have our primary predictor. To see how well it works for predicting head to head games, see our head to head model page at <b><a href="head_to_head">here</a></b><p>
+
+
+		<p class="description">We have the iPython Notebook for creating the markov chain <b><a href="static/code_html/markov_chain_code.html">here </a></b></p>
+
+
+		<h4 class="step"> 3) References </h4>
+		<p class="description">Kvam, P., & Sokol, J. S. (2006). "A Logistic Regression/Markov Chain <Model for NCAA Basketball." Naval Research Logistics, 53(8), 788-803. doi:10.1002/nav.20170</p>
+
+	</body>
+</html>
