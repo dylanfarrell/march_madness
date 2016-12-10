@@ -25,6 +25,10 @@ def results():
 def create():
     return render_template('create.html')
 
+@app.route('/ensemble')
+def ensemble():
+    return render_template('ensemble.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

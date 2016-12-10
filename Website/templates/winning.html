@@ -13,16 +13,86 @@
 	</head>
 	<body>
 		<!-- Header -->
-			<header id="header" class="alt">
-				<div class="inner">
-					<h1>Data Driven March Madness</h1>
-					<p>A Project by Rob Shaw, Spencer Evans, Daniel Alpert, and Sean Coleman</p>
-				</div>
-			</header>
+		<header id="header" class="alt">
+			<div class="inner">
+				<h1>Data Driven March Madness</h1>
+				<p >A Project by Rob Shaw, Spencer Evans, Daniel Alpert, and Sean Coleman</p>
+			</div>
+		</header>
 
-			<section id="cta" class="main special">
-				<h2>Predicting the Bracket: Winning your Office Pool</h2>
-			</section>
+		<section id="cta" class="main special">
+			<h2>Predicting the Bracket: Winning your Office Pool</h2>
+		</section>
+
+		<p class="description">To learn about the head to head logistic model, see <a href="head_to_head"><b>here.</b></a> </p>
+
+		<p class="description"> Now that we have a head to head model for predicting games, we need to predict an entire bracket. There are two additional considerations that we must look at to do this. First, we need to take into account the scoring system. Since most scoring systems give more points for later round games, predicting teams to win in the early rounds who have a good chance of succeeding in the later rounds is a good strategy in general. Thus, we need a way to optimize our total score. Second, we need to take into account that having a "unique" bracket is important for winning a march madness pool. Often times, just predicting the lower seed in each game will often give a good score, since the tournament selection committee considers a holistic view of all of the factors that go into winning basketball games. However, just predicting the low seed in each game can be considered a "typical" bracket that most people would predict. But, while an eccentric bracket may not have the highest expected score, its uniqueness will allow us to standout from the crowd. Thus, there is a tradeoff between maximizing expected score and maximizing the uniqueness, which we will need to optimize. </p>
+
+		<h4 class="step"> 1) Optimizing For The Scoring System </h4>
+
+		<p class="description"> When submitting a bracket to ESPN, we need to take the scoring system into account. Since predicting the later round games, such as the championship, is more important than predicting the first round, ESPN uses the following structure: 10 points for a round 1 game correct, 20 points for a round 2 game correct, 40 points for a round 3 game correct, 80 points for a round 4 correct, 160 points for a round 5 correct, and 320 for the championship game correct. Thus, each round is worth the same number of points. As such, using a greedy algorithm to predict the bracket in which we make the locally optimal decision in each round is not necessarily the best idea. Because we want to maximize our expected score, choosing teams which we think will do well in later rounds may give us a higher expected score overall, even if it does not maximize the expected score in a particular round. Consider the senario below:</p>
+
+		<div>
+			<img style="zoom: 60%; padding-bottom: 50px" src="static/images/optimize_bracket_simulation_graphic.png">
+		</div>
+
+		<p class="description"> As we can see, although the locally optimal decision would be to predict Harvard to lose in the first round, we would maximize our expected points if we predicted Harvard to get to the second round. However, finding the globally optimal bracket (which maximizes expected score) is somewhat challenging algorithmically. To compensate for this, we decided to simulate the tournament 300 times. In each round of the simulation, for a matchup of team A and team B, we decide the winner with a biased coin flip with the probability from the head to head model.We keep track of the number of points scored by each team (under the ESPN standard scoring) over the 300 rounds. We then predict a final bracket, deciding between team A and team B by comparing the total points scored by each team over the simulation. This bracket is an approximation of the globally optimal bracket which maximizes total expected points under ESPN scoring. As such, we expect this bracket to score better than using the greedy approach. We note, however, the drawbacks to this approach. Becuase we have to simulate the bracket 300 times in order to get a good approximation of the optimal bracket, this method is computationally expensive and take a long time to run, which makes using the greedy approach better in cases where time is of the essense.</p>
+
+		<h4 class="step">Comparing The Simulation Approach with the Greedy Approach</h4>
+
+		<p class="description"> Given the qualitiative discussion above, how does the simulation approach compare to the greedy approach in practice? To answer this question, compared the scores of the simulator approach and the greedy approach on years 2000 to 2013. The head to head model for each year is trained on the prior 3 years of data, so the results shown are on a "test" set. The greedy bracket scored on average 960 points, while the simulator scored on average 955 points. While the results are similiar (as we would expect, since there are only going to be rare situations in which the locally optimal choice is not the globally optimal choice), we see that the simulator does slightly better in most years, (except for, 2009, when it performed much worse). We have graphed the results over the years below. The y-axis is the points scored by the bracket under ESPN standard scoring. The x-axis is the year.</p>
+
+		<div>
+			<img src="static/images/simulator_vs_greedy.png">
+		</div>
+
+
+		<h4 class="step"> 2) A Unique Bracket </h4>
+
+		<p class="description"> In order to win a bracket pool, we not only want to maximize our expected score (as we do above with the simulation and unbiased head to head model), we also care about having a "unique" bracket. In our analysis, we consider the "typical" bracket to be the bracket whihc picks the low seed in each location (in other words, agreeing with the selection comittee in every spot). Thus, our measure of "uniqueness" is how different a bracket is from the low-seed bracket. Having a unique bracket is important, becuase in order to win a march madness office pool or to do well in the ESPN bracket challenge, the bracket needs to be different from the rest of the pool. Thus, we want to maximize the uniqueness of the bracket without sacrificing too much expected in expected total score.</p>
+
+		<p class="description"> In order to do this, we added a parameter to our predictor function, which changes the threshold at which we predict the the higher seed team to win. As such, we can force the model to predict more upsets and increase the uniqueness of our bracket. Below is a graph of the average score over the 13 years as a function of the amount of bias. The x-axis is the bias. A bias of .05 means that if our model predicts the high seed team to have a 45% chance of winning, we predict the high seed team to win. The y-axis is the average score over the 13 years. </p>
+
+		<div>
+			<img src="static/images/avg_score_as_a_fn_of_bias.png">
+		</div>
+
+		<p class="description"> We see expected score drop as a function of the amount of bias. However, there is much more variablity in the scores as the bias increases. As we see below, standard deviation of score increases as a function of bias. Using a high variance strategy such as this ideal, since having an average bracket does not allow us to win an office pool. We would rather have a bracket that does very well once every 5 years (getting in the top 5% of brackets that one year, and winning the office pool that year) than a bracket that gets in the 50% of brackets every year and never wins. The bracket belwo is the a graph of the standard deviation of score over the 13 years a s function fo the amount of bias. The x-axis is the bias. A bias of .05 means that if our model predicts the high seed team to have a 45% chance of winning, we predict the high seed team to win. The y-axis is the standard deviation of score over the 13 year. </p>
+
+		<div>
+			<img src="static/images/std_scores_as_a_fn_of_bias.png">
+		</div>
+
+		<p class="description"> Beyond just standard deviation of bias, we also see that the uniqueness of the bracket increases as a function of the bias in the model. This makes a lot of sense, becuase uniqueness is defined as the number of games different from predicting the low seed in each game, and increasing bias makes upsets more likely. In the graph below, the x-axis is the bias. The y-axis is the average number of games different from the low seed bracket over the 13 years. </p>
+
+		<div>
+			<img src="static/images/uniqueness_as_a_fn_of_bias.png">
+		</div>
+
+		<p class="description"> As such, we see expected score drop as a function of bias, but uniqueness increase. Qualitatively, we think that using a bias of about .07 is the ideal bracket of submitting just one bracket. With a bias of .07, we have an average score of 909 points and a uniqueness score of 16. As a comparison, with the unbiased model (a bias of 0), we have an average score of 960 and a uniqueness score of 8. Thus, we see a bracket with greater uniqueness, depite only sacrificing about 50 points on average. This is a good tradeoff. Thus, in our model for predicting 2014, 2015, and 2016, we will use a bias of .07. We have below a graph of the scores of the tournament prediction with a bias of .07. The y-axis is the score under ESPN standard scoring and the x-axis is the year.</p>
+
+		<div>
+			<img src="static/images/bias_.07_scores_over_the_years.png">
+		</div>
+
+
+		<p class="description"> Futhermore, not only do we increase in uniqueness as a function of bias, we also see that our maximum score over the 20 brackets gives is larger than just using the zero bias bracket. As such, this opens up a new possible strategy. Since ESPN allows submission of up to 10 brackets, using 10 different stategies in submitting brackets (i.e. one with less upsets, more upsets, etc.) may have better results. See an analysis of this <a href="ensemble"><b>here</b></a>. With this strategy, we get an average score of 1052, while using the bias model we get a score of 960. The graph below is a plot of the max score over the 20 different bias levels. The y-axis is the score under ESPN standard scoring and the x-axis is the year.</p>
+
+
+		<div>
+			<img src="static/images/max_score_over_biased_brackets.png">
+		</div>
+
+		<h4 class="step"> Tuning The Bias </h4>
+
+		<p class="description"> As we have discussed, maximizing uniqueness (i.e. number of games different from the low seed bracket) is important for winning an office pool or succeeding in ESPN bracket challenge. However, there is another metric of uniqueness which we have not yet considered: the location of the upsets. For example, one bracket may be unique in that it chooses several early round upsets (such as picking 3 5-12 upset, a 15 seed to beat a 2 seed, for example). On the other hand, another bracket may be unique in that it chooses a 5 seed to win the championship. As such, we have created functionality to allow for this customization by tuning the amount of bias depending on the round. On average from 2001 to 2013, these two brackets differed from eachother by 18 games, showing that there is a lot of diversity between the two of them. We have plotted below the number of games different between the two methods. The y-axis is the number of games and the x-axis is the year.</p>
+
+
+		<div>
+			<img src="static/images/number_of_games_dif_early_later_round_methods.png">
+		</div>
+
+		<p class="description"> To view the iPython Notebook used to do this analysis, click <b><a href="code_html/optimize_for_tournament_score.html">here</a></b>.</p>
 
 	</body>
 </html>
