@@ -143,10 +143,10 @@ class ModelPredictor(object):
                 # update the bias
                 cooling_factor = self.cooling.get(cur_round)
                 bias_delta = self.higher_seed_bias_delta * cooling_factor
-
+            
             # adjust our p_hat
             p_hat = self.__bias_p_hat_upset(p_hat, bias_delta, min_index_seed, max_index_seed)
-                
+              
         # check if we want to induce difference from other brackets, update p_hat
         if len(self.other_bracket_arr) != 0:
             # adjust our p_hat
@@ -212,6 +212,10 @@ class ModelPredictor(object):
         elif max_index_seed < min_index_seed:
             # update p_hat to predict min_index more often
             return p_hat + bias
+        
+        # otherwise just return phat
+        else:
+            return p_hat
       
     # biases the p_hat
     def __bias_p_hat_dif(self, p_hat, min_index_team, max_index_team):
