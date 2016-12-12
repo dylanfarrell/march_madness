@@ -541,8 +541,9 @@
 		-ms-appearance: none;
 		appearance: none;
 		display: block;
-		float: left;
+		float: center;
 		margin-right: -2em;
+		margin-left: 20
 		opacity: 0;
 		width: 1em;
 		z-index: -1;
@@ -1595,4 +1596,9 @@
 	.centgraphs {
 		text-align: center;
 		padding: 0 0 75px 0;
+	}
+
+
+	#params {
+		padding-left: 20px;
 	}
