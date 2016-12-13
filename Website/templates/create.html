@@ -13,15 +13,37 @@
 	</head>
 	<body>
 		<!-- Header -->
-			<header id="header" class="alt">
-				<div class="inner">
-					<h1>Data Drvien March Madness</h1>
-					<p>A Project by Rob Shaw, Spencer Evans, Daniel Alpert, and Sean Coleman</p>
-				</div>
-			</header>
+			<a id="header" href="/" class = "alt inner">
+				<h1>Data Driven March Madness</h1>
+				<p><b>
+					A Project by Rob Shaw, Spencer Evans, Daniel Alpert, and Sean Coleman</b></p>			
+			</a>
 
 			<section id="cta" class="main special">
 				<h2>Create your Bracket</h2>
+			</section>
+
+			<section id="params">
+				<p>Select your predictors</p>
+				<form action="buildmodel.py" method="post" id="select_param">
+			
+					<div>
+						<input type="checkbox" name="model_params" id="params_RPI" value = "RPI">
+						<label for="params_RPI">RPI </label>
+					</div>
+					<div>
+						<input type="checkbox" name="model_params" id="params_markov" value = "markov">
+						<label for="params_markov">Markov Chain </label>
+					</div>
+					<div>
+						<input type="checkbox" name="model_params" id="params_luck" value = "luck">
+						<label for="params_luck">Luck </label>
+					</div>
+					<div>
+						<input type="checkbox" name="model_params" id="params_bad_losses" value = "bad_losses">
+						<label for="params_bad_losses">Bad Losses </label>
+					</div>
+				</form>
 			</section>
 
 	</body>

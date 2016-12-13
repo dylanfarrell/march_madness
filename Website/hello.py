@@ -29,6 +29,9 @@ def create():
 def ensemble():
     return render_template('ensemble.html')
 
+@app.route('/buildmodel', methods=['POST'])
+def buildmodel():
+    model_params = request.form['model_params']
 
 if __name__ == "__main__":
     app.run(debug=True)
