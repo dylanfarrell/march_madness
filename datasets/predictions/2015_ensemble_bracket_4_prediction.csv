@@ -1,0 +1,64 @@
+,Slot,Strongseed,Strongseed Team,Weakseed,Weakseed Team,Prediction,Prediction Seed,Strongseed Team Name,Weakseed Team Name,Prediction Team Name
+0,R1W1,W01,1437,W16,1248,1437,W01,Villanova,Lafayette,Villanova
+1,R1W2,W02,1438,W15,1125,1438,W02,Virginia,Belmont,Virginia
+2,R1W3,W03,1328,W14,1107,1328,W03,Oklahoma,Albany NY,Oklahoma
+3,R1W4,W04,1257,W13,1414,1257,W04,Louisville,UC Irvine,Louisville
+4,R1W5,W05,1320,W12,1461,1320,W05,Northern Iowa,Wyoming,Northern Iowa
+5,R1W6,W06,1344,W11,1129,1129,W11,Providence,Boise St,Boise St
+6,R1W7,W07,1277,W10,1208,1277,W07,Michigan St,Georgia,Michigan St
+7,R1W8,W08,1301,W09,1261,1261,W09,NC State,LSU,LSU
+8,R1X1,X01,1181,X16,1316,1181,X01,Duke,North Florida,Duke
+9,R1X2,X02,1211,X15,1295,1211,X02,Gonzaga,N Dakota St,Gonzaga
+10,R1X3,X03,1235,X14,1412,1235,X03,Iowa St,UAB,Iowa St
+11,R1X4,X04,1207,X13,1186,1207,X04,Georgetown,E Washington,Georgetown
+12,R1X5,X05,1428,X12,1372,1428,X05,Utah,SF Austin,Utah
+13,R1X6,X06,1374,X11,1417,1374,X06,SMU,UCLA,SMU
+14,R1X7,X07,1234,X10,1172,1172,X10,Iowa,Davidson,Davidson
+15,R1X8,X08,1361,X09,1385,1361,X08,San Diego St,St John's,San Diego St
+16,R1Y1,Y01,1246,Y16,1264,1246,Y01,Kentucky,Manhattan,Kentucky
+17,R1Y2,Y02,1242,Y15,1308,1242,Y02,Kansas,New Mexico St,Kansas
+18,R1Y3,Y03,1323,Y14,1318,1323,Y03,Notre Dame,Northeastern,Notre Dame
+19,R1Y4,Y04,1268,Y13,1434,1268,Y04,Maryland,Valparaiso,Maryland
+20,R1Y5,Y05,1452,Y12,1138,1138,Y12,West Virginia,Buffalo,Buffalo
+21,R1Y6,Y06,1139,Y11,1400,1400,Y11,Butler,Texas,Texas
+22,R1Y7,Y07,1455,Y10,1231,1231,Y10,Wichita St,Indiana,Indiana
+23,R1Y8,Y08,1153,Y09,1345,1345,Y09,Cincinnati,Purdue,Purdue
+24,R1Z1,Z01,1458,Z16,1157,1458,Z01,Wisconsin,Coastal Car,Wisconsin
+25,R1Z2,Z02,1112,Z15,1411,1112,Z02,Arizona,TX Southern,Arizona
+26,R1Z3,Z03,1124,Z14,1209,1124,Z03,Baylor,Georgia St,Baylor
+27,R1Z4,Z04,1314,Z13,1217,1314,Z04,North Carolina,Harvard,North Carolina
+28,R1Z5,Z05,1116,Z12,1459,1116,Z05,Arkansas,Wofford,Arkansas
+29,R1Z6,Z06,1462,Z11,1140,1140,Z11,Xavier,BYU,BYU
+30,R1Z7,Z07,1433,Z10,1326,1326,Z10,VA Commonwealth,Ohio St,Ohio St
+31,R1Z8,Z08,1332,Z09,1329,1329,Z09,Oregon,Oklahoma St,Oklahoma St
+32,R2W1,R1W1,1437,R1W8,1261,1437,R1W1,Villanova,LSU,Villanova
+33,R2W2,R1W2,1438,R1W7,1277,1438,R1W2,Virginia,Michigan St,Virginia
+34,R2W3,R1W3,1328,R1W6,1129,1328,R1W3,Oklahoma,Boise St,Oklahoma
+35,R2W4,R1W4,1257,R1W5,1320,1320,R1W5,Louisville,Northern Iowa,Northern Iowa
+36,R2X1,R1X1,1181,R1X8,1361,1181,R1X1,Duke,San Diego St,Duke
+37,R2X2,R1X2,1211,R1X7,1172,1211,R1X2,Gonzaga,Davidson,Gonzaga
+38,R2X3,R1X3,1235,R1X6,1374,1235,R1X3,Iowa St,SMU,Iowa St
+39,R2X4,R1X4,1207,R1X5,1428,1428,R1X5,Georgetown,Utah,Utah
+40,R2Y1,R1Y1,1246,R1Y8,1345,1246,R1Y1,Kentucky,Purdue,Kentucky
+41,R2Y2,R1Y2,1242,R1Y7,1231,1242,R1Y2,Kansas,Indiana,Kansas
+42,R2Y3,R1Y3,1323,R1Y6,1400,1323,R1Y3,Notre Dame,Texas,Notre Dame
+43,R2Y4,R1Y4,1268,R1Y5,1138,1138,R1Y5,Maryland,Buffalo,Buffalo
+44,R2Z1,R1Z1,1458,R1Z8,1329,1458,R1Z1,Wisconsin,Oklahoma St,Wisconsin
+45,R2Z2,R1Z2,1112,R1Z7,1326,1112,R1Z2,Arizona,Ohio St,Arizona
+46,R2Z3,R1Z3,1124,R1Z6,1140,1124,R1Z3,Baylor,BYU,Baylor
+47,R2Z4,R1Z4,1314,R1Z5,1116,1314,R1Z4,North Carolina,Arkansas,North Carolina
+48,R3W1,R2W1,1437,R2W4,1320,1437,R2W1,Villanova,Northern Iowa,Villanova
+49,R3W2,R2W2,1438,R2W3,1328,1438,R2W2,Virginia,Oklahoma,Virginia
+50,R3X1,R2X1,1181,R2X4,1428,1181,R2X1,Duke,Utah,Duke
+51,R3X2,R2X2,1211,R2X3,1235,1211,R2X2,Gonzaga,Iowa St,Gonzaga
+52,R3Y1,R2Y1,1246,R2Y4,1138,1246,R2Y1,Kentucky,Buffalo,Kentucky
+53,R3Y2,R2Y2,1242,R2Y3,1323,1242,R2Y2,Kansas,Notre Dame,Kansas
+54,R3Z1,R2Z1,1458,R2Z4,1314,1458,R2Z1,Wisconsin,North Carolina,Wisconsin
+55,R3Z2,R2Z2,1112,R2Z3,1124,1112,R2Z2,Arizona,Baylor,Arizona
+56,R4W1,R3W1,1437,R3W2,1438,1437,R3W1,Villanova,Virginia,Villanova
+57,R4X1,R3X1,1181,R3X2,1211,1181,R3X1,Duke,Gonzaga,Duke
+58,R4Y1,R3Y1,1246,R3Y2,1242,1246,R3Y1,Kentucky,Kansas,Kentucky
+59,R4Z1,R3Z1,1458,R3Z2,1112,1112,R3Z2,Wisconsin,Arizona,Arizona
+60,R5WX,R4W1,1437,R4X1,1181,1181,R4X1,Villanova,Duke,Duke
+61,R5YZ,R4Y1,1246,R4Z1,1112,1246,R4Y1,Kentucky,Arizona,Kentucky
+62,R6CH,R5WX,1181,R5YZ,1246,1246,R5YZ,Duke,Kentucky,Kentucky
