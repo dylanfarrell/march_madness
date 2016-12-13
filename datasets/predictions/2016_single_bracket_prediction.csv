@@ -1,0 +1,64 @@
+,Slot,Strongseed,Strongseed Team,Weakseed,Weakseed Team,Prediction,Prediction Seed,Strongseed Team Name,Weakseed Team Name,Prediction Team Name
+0,R1W1,W01,1314,W16,1192,1314,W01,North Carolina,F Dickinson,North Carolina
+1,R1W2,W02,1462,W15,1451,1462,W02,Xavier,Weber St,Xavier
+2,R1W3,W03,1452,W14,1372,1452,W03,West Virginia,SF Austin,West Virginia
+3,R1W4,W04,1246,W13,1392,1246,W04,Kentucky,Stony Brook,Kentucky
+4,R1W5,W05,1231,W12,1151,1231,W05,Indiana,Chattanooga,Indiana
+5,R1W6,W06,1323,W11,1276,1323,W06,Notre Dame,Michigan,Notre Dame
+6,R1W7,W07,1458,W10,1338,1338,W10,Wisconsin,Pittsburgh,Pittsburgh
+7,R1W8,W08,1425,W09,1344,1344,W09,USC,Providence,Providence
+8,R1X1,X01,1438,X16,1214,1438,X01,Virginia,Hampton,Virginia
+9,R1X2,X02,1277,X15,1292,1277,X02,Michigan St,MTSU,Michigan St
+10,R1X3,X03,1428,X14,1201,1428,X03,Utah,Fresno St,Utah
+11,R1X4,X04,1235,X13,1233,1235,X04,Iowa St,Iona,Iowa St
+12,R1X5,X05,1345,X12,1114,1345,X05,Purdue,Ark Little Rock,Purdue
+13,R1X6,X06,1371,X11,1211,1211,X11,Seton Hall,Gonzaga,Gonzaga
+14,R1X7,X07,1173,X10,1393,1173,X07,Dayton,Syracuse,Dayton
+15,R1X8,X08,1403,X09,1139,1139,X09,Texas Tech,Butler,Butler
+16,R1Y1,Y01,1242,Y16,1122,1242,Y01,Kansas,Austin Peay,Kansas
+17,R1Y2,Y02,1437,Y15,1421,1437,Y02,Villanova,UNC Asheville,Villanova
+18,R1Y3,Y03,1274,Y14,1138,1274,Y03,Miami FL,Buffalo,Miami FL
+19,R1Y4,Y04,1143,Y13,1218,1143,Y04,California,Hawaii,California
+20,R1Y5,Y05,1268,Y12,1355,1268,Y05,Maryland,S Dakota St,Maryland
+21,R1Y6,Y06,1112,Y11,1435,1112,Y06,Arizona,Vanderbilt,Arizona
+22,R1Y7,Y07,1234,Y10,1396,1234,Y07,Iowa,Temple,Iowa
+23,R1Y8,Y08,1160,Y09,1163,1163,Y09,Colorado,Connecticut,Connecticut
+24,R1Z1,Z01,1332,Z16,1380,1332,Z01,Oregon,Southern Univ,Oregon
+25,R1Z2,Z02,1328,Z15,1167,1328,Z02,Oklahoma,CS Bakersfield,Oklahoma
+26,R1Z3,Z03,1401,Z14,1453,1401,Z03,Texas A&M,WI Green Bay,Texas A&M
+27,R1Z4,Z04,1181,Z13,1423,1181,Z04,Duke,UNC Wilmington,Duke
+28,R1Z5,Z05,1124,Z12,1463,1124,Z05,Baylor,Yale,Baylor
+29,R1Z6,Z06,1400,Z11,1320,1400,Z06,Texas,Northern Iowa,Texas
+30,R1Z7,Z07,1333,Z10,1433,1433,Z10,Oregon St,VA Commonwealth,VA Commonwealth
+31,R1Z8,Z08,1386,Z09,1153,1153,Z09,St Joseph's PA,Cincinnati,Cincinnati
+32,R2W1,R1W1,1314,R1W8,1344,1314,R1W1,North Carolina,Providence,North Carolina
+33,R2W2,R1W2,1462,R1W7,1338,1462,R1W2,Xavier,Pittsburgh,Xavier
+34,R2W3,R1W3,1452,R1W6,1323,1452,R1W3,West Virginia,Notre Dame,West Virginia
+35,R2W4,R1W4,1246,R1W5,1231,1246,R1W4,Kentucky,Indiana,Kentucky
+36,R2X1,R1X1,1438,R1X8,1139,1438,R1X1,Virginia,Butler,Virginia
+37,R2X2,R1X2,1277,R1X7,1173,1277,R1X2,Michigan St,Dayton,Michigan St
+38,R2X3,R1X3,1428,R1X6,1211,1211,R1X6,Utah,Gonzaga,Gonzaga
+39,R2X4,R1X4,1235,R1X5,1345,1345,R1X5,Iowa St,Purdue,Purdue
+40,R2Y1,R1Y1,1242,R1Y8,1163,1242,R1Y1,Kansas,Connecticut,Kansas
+41,R2Y2,R1Y2,1437,R1Y7,1234,1437,R1Y2,Villanova,Iowa,Villanova
+42,R2Y3,R1Y3,1274,R1Y6,1112,1274,R1Y3,Miami FL,Arizona,Miami FL
+43,R2Y4,R1Y4,1143,R1Y5,1268,1268,R1Y5,California,Maryland,Maryland
+44,R2Z1,R1Z1,1332,R1Z8,1153,1332,R1Z1,Oregon,Cincinnati,Oregon
+45,R2Z2,R1Z2,1328,R1Z7,1433,1328,R1Z2,Oklahoma,VA Commonwealth,Oklahoma
+46,R2Z3,R1Z3,1401,R1Z6,1400,1401,R1Z3,Texas A&M,Texas,Texas A&M
+47,R2Z4,R1Z4,1181,R1Z5,1124,1181,R1Z4,Duke,Baylor,Duke
+48,R3W1,R2W1,1314,R2W4,1246,1314,R2W1,North Carolina,Kentucky,North Carolina
+49,R3W2,R2W2,1462,R2W3,1452,1452,R2W3,Xavier,West Virginia,West Virginia
+50,R3X1,R2X1,1438,R2X4,1345,1438,R2X1,Virginia,Purdue,Virginia
+51,R3X2,R2X2,1277,R2X3,1211,1277,R2X2,Michigan St,Gonzaga,Michigan St
+52,R3Y1,R2Y1,1242,R2Y4,1268,1242,R2Y1,Kansas,Maryland,Kansas
+53,R3Y2,R2Y2,1437,R2Y3,1274,1437,R2Y2,Villanova,Miami FL,Villanova
+54,R3Z1,R2Z1,1332,R2Z4,1181,1332,R2Z1,Oregon,Duke,Oregon
+55,R3Z2,R2Z2,1328,R2Z3,1401,1328,R2Z2,Oklahoma,Texas A&M,Oklahoma
+56,R4W1,R3W1,1314,R3W2,1452,1314,R3W1,North Carolina,West Virginia,North Carolina
+57,R4X1,R3X1,1438,R3X2,1277,1277,R3X2,Virginia,Michigan St,Michigan St
+58,R4Y1,R3Y1,1242,R3Y2,1437,1242,R3Y1,Kansas,Villanova,Kansas
+59,R4Z1,R3Z1,1332,R3Z2,1328,1328,R3Z2,Oregon,Oklahoma,Oklahoma
+60,R5WX,R4W1,1314,R4X1,1277,1314,R4W1,North Carolina,Michigan St,North Carolina
+61,R5YZ,R4Y1,1242,R4Z1,1328,1242,R4Y1,Kansas,Oklahoma,Kansas
+62,R6CH,R5WX,1314,R5YZ,1242,1242,R5YZ,North Carolina,Kansas,Kansas
