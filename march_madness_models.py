@@ -76,6 +76,8 @@ class MarkovPredictor(object):
 # pass in a dict of the form {1:r1, 2:r2, 3:r3, 4:r4, 5:r5, 6:r6}
 # when we update bias the probability, we do p + higher_seed_bias_delta * r_i depending on the round
 
+# we are also able to pass in other brackets and induce bias based on the similiarity
+
 # predictor using some model for predicting head to head games
 class ModelPredictor(object):
     # init function

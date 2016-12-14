@@ -9,6 +9,8 @@ import march_madness_models as mmm
 
 # 2) Simulator -> Runs a tournament under some model n times, uses expected points scored as metric to optimize points scored
 
+# 3) Ensemble -> Runs 10 tournaments, each differing from eachother to maximize diversity and uniqueness
+
 ########################################################################################################
 
 ### Tournament Class
@@ -26,7 +28,9 @@ import march_madness_models as mmm
 
 # 2) score_tournament --> takes in the actual results of the tournament year and scores it according to ESPN
 
-# 3) get_predicted_points --> returns a dataframe of how many points each team scores under the model
+# 3) compare_to_dif_tournament --> computes the number of games different from another tournament 
+
+# 4) get_predicted_points --> returns a dataframe of how many points each team scores under the model
 
 class Tournament(object):
     # init function
@@ -478,19 +482,27 @@ class Simulator(object):
     # score the tournament
     def score_tournament(self, actual_results, print_res=True, scoring="ESPN"):
         return self.tournament_prediction.score_tournament(actual_results, print_res=print_res, scoring=scoring)    
+
     
-    ########################################################################################################
+    
+########################################################################################################
 
 ### Ensemble Class
 ### arguments = seeds, slots, and head to head model
-### runs the tournament 10 times
+### runs the tournament 10 times with 10 diverse brackets
 
 ### METHODS
 # 1) init --> sets up model, seeds, slots
+#             creates 3 starter tourneys ---> unbiased, late round upsets, early round upsets
+#             generates 7 derivated tourneys ---> with cost functions that induce bias based on predictions of 3 starters
+
+# 2) score_tournament ---> gets the max score of the 10 brackets
+
+# 3) compute_dif_matrix ---> computes number of games different between each pair of the 10 brackets
+
+# 4) compute_dif_vect ---> computes dif from an argument bracket for each of the 10 brackets
 
     
-
-# used to simulate a tournament n times and output the combined results
 class Ensemble(object):
     def __init__(self, 
                  seeds, 
