@@ -1,12 +1,56 @@
 # march_madness
 
-# Data
-The predictors are at are at datasets/our_data.
+This file will teach you how to move around this project.
 
-Each of the data files are structures as a 2 dimensional matrix; with the rows representing a given year and each column representing a given team. Thus, wins[1985, 1000] is the number of wins by team 1000 in year 1985. In order to get an "x" vector to use a predictor for a given year, take the 1985 "row" (which is itself a pandas Series object) and use it as a predictor.
+1) Data
 
-We also have additional helper data at datasets/our_data/helper_data. These data are not necessarily predictors, but are used in creating predictors. The data are structured as above.
+2) Modules
 
-We also have the markov chain data in datasets/our_data/markov_data. These data are used in our markov chain analysis in generating the markov chain/calculating the stationary distributions. There is a dataframe with the team id and the distribution for each year; however, note that I will be fixing these to be in the structure of the other data soon.
+3) Infrastructure
 
-# March Madness Classes 
+4) Data Cleaning/Exploration
+
+5) Modeling
+
+6) Prediction
+
+
+# 1) Data
+
+  a) Raw Data - The raw data are help at datasets/kaggle_data. See https://www.kaggle.com/c/march-machine-learning-mania-2016/data for a detailed explanation of each file. We extracted all of our predictors from this dataset.
+  
+  b) Predictor Database - The predictor database is held at datasets/our_data. Each file is a regular season statistic. Each file is setup the same way. The columns are team IDs and the rows are years. Thus, they are all 31x282 matrix, where the (i,j) entry is the value in year 1985 + i for team 1100 + j.
+  
+  c) Predictions - The predictions for 2015 and 2016 (our "test set") are found at datasets/predictions. We have multiple types of files here. There is the single_bracket_predictions, which are the predicitons for a bracket pool, where you are only allowed to submit one bracket. The are also ensemble_bracket_i_predictions, which is the predictions from each individual bracket. 
+  
+# 2) Modules
+  
+  a) March Madness Classes - This file has 3 classes - Tournament, Simulator, Ensemble. Each class allows you to make a prediction of some type. Tournament lets you pass in a Model for predicting head to head games and the seeding and it generates an entire bracket. Simulator takes in a head to head model and runs a simulation n times, predicting a bracket based on max expected points scores. Ensemble creates 10 different brackets that maximizes diversity to submit for ESPN bracket challenge. 
+  
+  b) March Madness Models - This module contains var
+  
+  c) March Madness Games
+  
+  d) March Madness Train and Tune
+  
+# 3) Infrastructure
+
+  a) Test Files
+  
+# 4) Data Cleaning/Exploration
+
+  a) Basic
+  
+  b) Markov
+  
+  c) Advanced
+  
+# 5) Modeling
+
+  a) Head To Head Model
+  
+  b) Optimize For Tournament Structure
+  
+  c) Ensemble of Brackets  
+  
+# 6) Prediction
