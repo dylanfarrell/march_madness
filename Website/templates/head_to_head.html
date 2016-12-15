@@ -25,7 +25,7 @@
 
 		<h4 class="step"> 1) Intro </h4>
 
-		<p class="description">In order to predict the NCAA tournament, first we need to create a head to head model, which given data for 2 teams, predicts the outcome of the game. Obviously, the markov chain stationary distribution (explained <b> <a href="markov"> here </a> </b>) was one of the first predictors that we explored. However, given our knowledge of college baskeball, we also wanted to try some other predictors to see if a combination of them did a better job. We considered all of the following predictors:</p>
+		<p class="description">In order to predict the NCAA tournament, first we need to create a head to head model, which given data for 2 teams, predicts the outcome of the game. Obviously, the markov chain stationary distribution (explained <b> <a href="markov"> here </a> </b>) was one of the first predictors that we explored. However, given our knowledge of college basketball, we also wanted to try some other predictors to see if a combination of them did a better job. We considered all of the following predictors:</p>
 
 		<ul class="list">
 			<li>avg_points_against</li>
@@ -92,7 +92,7 @@
 
 		<h4 class="step"> 3) Model Selection </h4>
 
-		<p class="description">Obviously, many of these values are highly correlated. As such, in order not to overfit our head to head model, we performed variable selection. To do this, we created 8 logistic regression models for classifying the winners of games from 2006 to 2013. We used a "windowing approach," where the model for 2006 is trained on 2003, 2004, and 2005, the model for 2007 is trained on 2004, 2005, and 2006 and so forth. This method allowed us to have a large number of observations for our training, but also prevented overfitting to the train data. Since each year we standardized the variables to have mean 0 and variance 1, the coefficients in the 8 logisitc regression models are all in the same units. As such, we could compare which variables were most important by looking at the average value over the 8 years and comparing the absolute values. See the results below. The x-axis is the average value of the coefficient over the 8 years. The y-axis is the variable.</p>
+		<p class="description">Obviously, many of these values are highly correlated. As such, in order not to overfit our head to head model, we performed variable selection. To do this, we created 8 logistic regression models for classifying the winners of games from 2006 to 2013. We used a "windowing approach," where the model for 2006 is trained on 2003, 2004, and 2005, the model for 2007 is trained on 2004, 2005, and 2006 and so forth. This method allowed us to have a large number of observations for our training, but also prevented overfitting to the train data. Since each year we standardized the variables to have mean 0 and variance 1, the coefficients in the 8 logistic regression models are all in the same units. As such, we could compare which variables were most important by looking at the average value over the 8 years and comparing the absolute values. See the results below. The x-axis is the average value of the coefficient over the 8 years. The y-axis is the variable.</p>
 
 		<div>
 			<img src="static/images/coefficients_logistic.png">
@@ -109,11 +109,11 @@
 			<img src="static/images/model_selection.png">
 		</div>
 
-		<p class="description">As we can see, having 3 variables in the logistic model (markov, rpi, and bad_losses) maximized our accuracy on the test set. This also outperformed running random forest with all of the variables in the model and running a logistic model with variables selected by running a lasso regression on predicting the scoring difference of games.  As such, we have cross validated the number of variables to include in the model, 3. Thus, we chose a logisitic model with 3 variables markov, bad_losses, and rpi.</p>
+		<p class="description">As we can see, having 3 variables in the logistic model (markov, rpi, and bad_losses) maximized our accuracy on the test set. This also outperformed running random forest with all of the variables in the model and running a logistic model with variables selected by running a lasso regression on predicting the scoring difference of games.  As such, we have cross validated the number of variables to include in the model, 3. Thus, we chose a logistic model with 3 variables markov, bad_losses, and rpi.</p>
 
 		<h4 class="step"> 5) Cross Validating the Regularization Parameter </h4>
 
-		<p class="description"> As with all logistic regression models, we needed to cross validate the optimal value of the regularization parameter. We found that the value of C had essentially no effect on our test accuracy. We think that this is the case, becuase we manually performed variable selection using backwards stepwise variable selection, so our model was never overfit to begin with. As such, we will chose to just use C=1. See the results below. The x-axis is the value of C (inv of regularization strength) and the y-axis is the % correct.</p>
+		<p class="description"> As with all logistic regression models, we needed to cross validate the optimal value of the regularization parameter. We found that the value of C had essentially no effect on our test accuracy. We think that this is the case, because we manually performed variable selection using backwards stepwise variable selection, so our model was never overfit to begin with. As such, we will chose to just use C=1. See the results below. The x-axis is the value of C (inv of regularization strength) and the y-axis is the % correct.</p>
 
 		<div>
 			<img src="static/images/cross_validate_c.png">
@@ -122,8 +122,8 @@
 		<p class="description">See the python notebooks for this process:</p>
 
 		<ul class="list">
-			<li> <a href="../static/code_html/data_exploration_basic_code.html">Basic Data Exploraton </a></li>
-			<li> <a href="../static/code_html/data_exploration_markov_code.html">Markov Data Exploraton </a></li>
+			<li> <a href="../static/code_html/data_exploration_basic_code.html">Basic Data Exploration </a></li>
+			<li> <a href="../static/code_html/data_exploration_markov_code.html">Markov Data Exploration </a></li>
 			<li> <a href="../static/code_html/data_exploration_adv_code.html">Advanced Data Exploration</a></li>
 			<li> <a href="../static/code_html/modeling_code.html">Modeling and Variable Selection</a></li>
 		</ul>
