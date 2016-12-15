@@ -1,12 +1,32 @@
 # march_madness
 
 # Data
-The predictors are at are at datasets/our_data.
 
-Each of the data files are structures as a 2 dimensional matrix; with the rows representing a given year and each column representing a given team. Thus, wins[1985, 1000] is the number of wins by team 1000 in year 1985. In order to get an "x" vector to use a predictor for a given year, take the 1985 "row" (which is itself a pandas Series object) and use it as a predictor.
+- raw data found in /datasets/kaggle_data
+- predictors found in /datasets/our_data
+    - each predictor is a matrix with the rows being the year and the column being the team ID
+- predictions for 2015 and 2016 are in /datasets/predictions
 
-We also have additional helper data at datasets/our_data/helper_data. These data are not necessarily predictors, but are used in creating predictors. The data are structured as above.
+# Modules
+- these are helper files that allow us to easily setup infrastructure to train/test models and run tournaments
 
-We also have the markov chain data in datasets/our_data/markov_data. These data are used in our markov chain analysis in generating the markov chain/calculating the stationary distributions. There is a dataframe with the team id and the distribution for each year; however, note that I will be fixing these to be in the structure of the other data soon.
+- march_madness_classes        : code to setup tournaments, simulations, and ensembles
+- march_madness_games          : code to query the database 
+- march_madness_models         : code to faciliate head to head models (used in combo with march_madness classes)
+- march_madness_train_and_tune : code to do train test split
 
-# March Madness Classes 
+# Data Exploration/Cleaning
+- these files are used to generate predictors from the regular season data, and to explore relation with the response
+
+- Kaggle Database : code to take our first crack of exploration
+- Markov          : code to model the ncaa as a markov chain/ explore connection with response
+- Advanced        : code to test some more predictors
+
+# Modeling 
+- Baseline : code to train a baseline head to head model
+- Model Selection : code to choose predictors and train our final head to head model
+- Optimize for tourney structure : code to induce upsets/ maximize expected score
+- Ensemble : code to predict many unique brackets for submission
+
+# Prediction
+- Our final 2 years of prediction - no tuning was done, to see how our method works.
