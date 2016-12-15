@@ -25,7 +25,7 @@
 		</section>
 
 		<h4 class="step"> 1) Our Motivation </h4>
-		<p class="description"> Each year, millions of people join ESPN's bracket challenge. Each account on ESPN.com is eligible to submit up to 10 brackets to this competetion for the chance to win prizes and ultimate bragging rights. To win this bracket, much like to win an office pool, a user needs to submit a bracket that not only has a high accuracy and does well in predicting games, but also a bracket that is highly unique, such that not many of the other people in the field also do well. See <b><a href="winning">here</a></b> for an analysis of how to do this. However, becuase each user can submit up to 10 brackets and only the maximum score matters in the rankings, predicting 10 brackets that are much different from eachother is also (and, arguably, more) important for succeeding in the bracket challenge. As such, we develop a method called the ensemble of brackets, which creates 10 brackets that are unique from eachother. The code written to do this is <a href="../static/code_html/march_madness_classes.py"><b>here</b></a>.</p>
+		<p class="description"> Each year, millions of people join ESPN's bracket challenge. Each account on ESPN.com is eligible to submit up to 10 brackets to this competition for the chance to win prizes and ultimate bragging rights. To win this bracket, much like to win an office pool, a user needs to submit a bracket that not only has a high accuracy and does well in predicting games, but also a bracket that is highly unique, such that not many of the other people in the field also do well. See <b><a href="winning">here</a></b> for an analysis of how to do this. However, because each user can submit up to 10 brackets and only the maximum score matters in the rankings, predicting 10 brackets that are much different from each other is also (and, arguably, more) important for succeeding in the bracket challenge. As such, we develop a method called the ensemble of brackets, which creates 10 brackets that are unique from each other. The code written to do this is <a href="../static/code_html/march_madness_classes.py"><b>here</b></a>.</p>
 		<!-- this python file doesn't exist -->
 
 
@@ -38,14 +38,14 @@
 			<img src="static/images/intra_ensemble_diversity.png">
 		</div>
 
-		<p class="description"> Futher, we see that each bracket also has high "uniqueness", where "uniqueness" is defined as the number of games different than predicting the low seed in each game. (for a discussion of this, see the predicting a bracket page). On average, each bracket has a uniqueness score of 14, which should allow us to score "differently" than the typical bracket. We have a visualization of this below. On the y-axis is the number of games different from the low seed brackets. The x-axis is the year.</p>
+		<p class="description"> Further, we see that each bracket also has high "uniqueness", where "uniqueness" is defined as the number of games different than predicting the low seed in each game. (for a discussion of this, see the predicting a bracket page). On average, each bracket has a uniqueness score of 14, which should allow us to score "differently" than the typical bracket. We have a visualization of this below. On the y-axis is the number of games different from the low seed brackets. The x-axis is the year.</p>
 
 
 		<div>
 			<img src="static/images/ensemble_uniqueness.png">
 		</div>
 
-		<p class="description"> Now that we understand qualitatively that our ensemble should perform better in the context of the ESPN bracket challenge than just submitting our one unbiased bracket, we need to test the results. We plotted the scores achieved by the ensemble and the scores achieved by the unbiased bracket. As we can see, the ensemble scores significently better than both the low seed baseline and the unbiased bracket. The ensemble scored an average of 1080, the unbiased model scored an average of 941, and the low seed baseline score an average of 856. We have plotted the results across the years below. The ensemble especially performs better in 2002, 2005, and 2012, when there were a lot of upsets, showing the power of having a diverse set of brackets. On the y-axis is the score under the ESPN standard scoring. On the x-axis is the year.</p>
+		<p class="description"> Now that we understand qualitatively that our ensemble should perform better in the context of the ESPN bracket challenge than just submitting our one unbiased bracket, we need to test the results. We plotted the scores achieved by the ensemble and the scores achieved by the unbiased bracket. As we can see, the ensemble scores significantly better than both the low seed baseline and the unbiased bracket. The ensemble scored an average of 1080, the unbiased model scored an average of 941, and the low seed baseline score an average of 856. We have plotted the results across the years below. The ensemble especially performs better in 2002, 2005, and 2012, when there were a lot of upsets, showing the power of having a diverse set of brackets. On the y-axis is the score under the ESPN standard scoring. On the x-axis is the year.</p>
 
 
 		<div>
