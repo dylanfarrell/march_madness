@@ -28,5 +28,8 @@
 - Optimize for tourney structure : code to induce upsets/ maximize expected score
 - Ensemble : code to predict many unique brackets for submission
 
+# Intrastructure
+- These files are all testing of the code written in the modules to make sure everything works correctly. They can largely be ignored.
+
 # Prediction
 - Our final 2 years of prediction - no tuning was done, to see how our method works.
