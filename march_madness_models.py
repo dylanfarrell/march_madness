@@ -35,7 +35,7 @@ class ActualTournament(object):
             winning_team = team_2
             scoring_dif = game_played_team_2_win["Wscore"] - game_played_team_2_win["Lscore"]       
         else:
-            print "Error"
+            print("Error")
             return -1
         
         # return socre and scoring dif if we want                                       
@@ -190,8 +190,8 @@ class ModelPredictor(object):
         elif self.game_count < 32 + 16 + 8 + 4 + 2 + 1:
             return 6
         else:
-            print self.game_count
-            print "issue with game count"
+            print(self.game_count)
+            print("issue with game count")
             return 
      
     # updates game count, if not a playin game

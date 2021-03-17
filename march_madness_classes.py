@@ -87,7 +87,7 @@ class Tournament(object):
                 team_2_a = seeds.loc[seeds["Seed"] == team_2_a_seed, "Team"].values[0]
                 team_2_b = seeds.loc[seeds["Seed"] == team_2_b_seed, "Team"].values[0]
                 
-                # predict winner of play in
+                # predict winclner of play in
                 if include_scoring_dif:
                     team_2, x = self.model.predict(team_2_a, team_2_b)
                 else:
@@ -317,13 +317,13 @@ class Tournament(object):
             
             # if we want to print the results
         if print_res:
-            print "Number Correct Our Model     : {}, Number Correct Dif Model : {}".format(differences[0][1], differences[0][2])
-            print "R1: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[1][1], differences[1][2])
-            print "R2: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[2][1], differences[2][2])
-            print "R3: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[3][1], differences[3][2])
-            print "R4: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[4][1], differences[4][2])
-            print "R5: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[5][1], differences[5][2])
-            print "R6: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[6][1], differences[6][2])
+            print("Number Correct Our Model     : {}, Number Correct Dif Model : {}".format(differences[0][1], differences[0][2]))
+            print("R1: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[1][1], differences[1][2]))
+            print("R2: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[2][1], differences[2][2]))
+            print("R3: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[3][1], differences[3][2]))
+            print("R4: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[4][1], differences[4][2]))
+            print("R5: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[5][1], differences[5][2]))
+            print("R6: Number Correct Our Model : {}, Number Correct Dif Model : {}".format(differences[6][1], differences[6][2]))
             
         return differences[0]
         
@@ -378,14 +378,14 @@ class Tournament(object):
         
         # if we want to print the results
         if print_res:
-            print "Total Points  : {}\n".format(tot_points)
-            print "Total Accuracy: {} / {} = {}".format(tot_correct, tot_games, tot_accuracy)
-            print "R1    Accuracy: {} / {} = {}".format(r_1_correct, r_1_games, r_1_accuracy)
-            print "R2    Accuracy: {} / {} = {}".format(r_2_correct, r_2_games, r_2_accuracy)
-            print "R3    Accuracy: {} / {} = {}".format(r_3_correct, r_3_games, r_3_accuracy)
-            print "R4    Accuracy: {} / {} = {}".format(r_4_correct, r_4_games, r_4_accuracy)
-            print "R5    Accuracy: {} / {} = {}".format(r_5_correct, r_5_games, r_5_accuracy)
-            print "R6    Accuracy: {} / {} = {}".format(r_6_correct, r_6_games, r_6_accuracy)
+            print("Total Points  : {}\n".format(tot_points))
+            print("Total Accuracy: {} / {} = {}".format(tot_correct, tot_games, tot_accuracy))
+            print("R1    Accuracy: {} / {} = {}".format(r_1_correct, r_1_games, r_1_accuracy))
+            print("R2    Accuracy: {} / {} = {}".format(r_2_correct, r_2_games, r_2_accuracy))
+            print("R3    Accuracy: {} / {} = {}".format(r_3_correct, r_3_games, r_3_accuracy))
+            print("R4    Accuracy: {} / {} = {}".format(r_4_correct, r_4_games, r_4_accuracy))
+            print("R5    Accuracy: {} / {} = {}".format(r_5_correct, r_5_games, r_5_accuracy))
+            print("R6    Accuracy: {} / {} = {}".format(r_6_correct, r_6_games, r_6_accuracy))
 
         return (tot_points, tot_accuracy)
     
