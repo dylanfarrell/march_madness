@@ -37,7 +37,7 @@ def train_test_split(window, test_yr, seeds_arr, slots_arr, tourney_arr, column_
 
 def cross_val_c(window, seeds_arr, slots_arr, tourney_arr, column_names, predictor_dfs):
     col_names = ['0.0001', '0.001', '0.01', '.1', '1', '10', '100']
-    test_yr_range = range(2003 + window, 2016)
+    test_yr_range = range(2003 + window, 2021)
     scores = pd.DataFrame(index=test_yr_range, columns = col_names)
     
     c_vals = range(-4, 3)

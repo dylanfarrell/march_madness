@@ -49,12 +49,12 @@ class Tournament(object):
         for index, slot in round_1_slots.iloc[:32, :].iterrows():
       
             # get seeds
-            team_1_seed = slot["Strongseed"]
-            team_2_seed = slot["Weakseed"] 
+            team_1_seed = slot["StrongSeed"]
+            team_2_seed = slot["WeakSeed"] 
             
             # lookup team id
-            team_1 = seeds.loc[seeds["Seed"] == team_1_seed, "Team"].values
-            team_2 = seeds.loc[seeds["Seed"] == team_2_seed, "Team"].values
+            team_1 = seeds.loc[seeds["Seed"] == team_1_seed, "TeamID"].values
+            team_2 = seeds.loc[seeds["Seed"] == team_2_seed, "TeamID"].values
             
             # play in game
             if len(team_1) == 0:
@@ -63,8 +63,8 @@ class Tournament(object):
                 team_1_b_seed = team_1_seed + "b"
                 
                 # lookup team id
-                team_1_a = seeds.loc[seeds["Seed"] == team_1_a_seed, "Team"].values[0]
-                team_1_b = seeds.loc[seeds["Seed"] == team_1_b_seed, "Team"].values[0]
+                team_1_a = seeds.loc[seeds["Seed"] == team_1_a_seed, "TeamID"].values[0]
+                team_1_b = seeds.loc[seeds["Seed"] == team_1_b_seed, "TeamID"].values[0]
                 
                 # predict winner of play ing
                 if include_scoring_dif:
@@ -84,8 +84,8 @@ class Tournament(object):
                 team_2_b_seed = team_2_seed + "b"
                 
                 # lookup team id
-                team_2_a = seeds.loc[seeds["Seed"] == team_2_a_seed, "Team"].values[0]
-                team_2_b = seeds.loc[seeds["Seed"] == team_2_b_seed, "Team"].values[0]
+                team_2_a = seeds.loc[seeds["Seed"] == team_2_a_seed, "TeamID"].values[0]
+                team_2_b = seeds.loc[seeds["Seed"] == team_2_b_seed, "TeamID"].values[0]
                 
                 # predict winclner of play in
                 if include_scoring_dif:
@@ -134,9 +134,9 @@ class Tournament(object):
         if self.include_scoring_dif:
             self.round_1_df = pd.DataFrame(data=np.array(games), 
                                            columns=["Slot", 
-                                                    "Strongseed", 
+                                                    "StrongSeed", 
                                                     "Strongseed Team", 
-                                                    "Weakseed", 
+                                                    "WeakSeed", 
                                                     "Weakseed Team", 
                                                     "Prediction", 
                                                     "Prediction Seed",
@@ -144,9 +144,9 @@ class Tournament(object):
         else:
             self.round_1_df = pd.DataFrame(data=np.array(games), 
                                            columns=["Slot", 
-                                                    "Strongseed", 
+                                                    "StrongSeed", 
                                                     "Strongseed Team", 
-                                                    "Weakseed", 
+                                                    "WeakSeed", 
                                                     "Weakseed Team", 
                                                     "Prediction", 
                                                     "Prediction Seed"])
@@ -181,8 +181,8 @@ class Tournament(object):
         # generate games in a round
         for index, slot in round_n_slots.iloc[:n_games_in_prev_round.get(round_n), :].iterrows():
             # get seeds
-            team_1_seed = slot["Strongseed"]
-            team_2_seed = slot["Weakseed"]
+            team_1_seed = slot["StrongSeed"]
+            team_2_seed = slot["WeakSeed"]
             
             # teams
             team_1 = prev_round_df.loc[prev_round_df["Slot"] == team_1_seed, "Prediction"].values[0]
@@ -222,9 +222,9 @@ class Tournament(object):
         if self.include_scoring_dif:
             cur_round_df = pd.DataFrame(data=np.array(games), 
                                            columns=["Slot", 
-                                                    "Strongseed", 
+                                                    "StrongSeed", 
                                                     "Strongseed Team", 
-                                                    "Weakseed", 
+                                                    "WeakSeed", 
                                                     "Weakseed Team", 
                                                     "Prediction", 
                                                     "Prediction Seed",
@@ -232,9 +232,9 @@ class Tournament(object):
         else:
             cur_round_df = pd.DataFrame(data=np.array(games), 
                                            columns=["Slot", 
-                                                    "Strongseed", 
+                                                    "StrongSeed", 
                                                     "Strongseed Team", 
-                                                    "Weakseed", 
+                                                    "WeakSeed", 
                                                     "Weakseed Team", 
                                                     "Prediction", 
                                                     "Prediction Seed"])
@@ -406,7 +406,7 @@ class Tournament(object):
     # points scored for all teams
     def get_predicted_points(self, scoring="ESPN"):
         # setup buffers
-        teams = self.seeds["Team"]
+        teams = self.seeds["TeamID"]
         points = np.zeros(teams.shape[0])
 
         i = 0
@@ -463,7 +463,7 @@ class Simulator(object):
             predicted_points = predicted_points + self.run_tournament(scoring="ESPN")
             
         # make a dataframe for safe keeping
-        self.predicted_points = pd.DataFrame(data=predicted_points, index=self.seeds["Team"], columns=["pred_points"])
+        self.predicted_points = pd.DataFrame(data=predicted_points, index=self.seeds["TeamID"], columns=["pred_points"])
         
         return self.predicted_points
     

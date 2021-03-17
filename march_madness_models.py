@@ -24,16 +24,16 @@ class ActualTournament(object):
         return
     
     def predict(self, team_1, team_2):
-        game_played_team_1_win = self.tourney[(self.tourney["Wteam"] == int(team_1)) & (self.tourney["Lteam"] == int(team_2))]
-        game_played_team_2_win = self.tourney[(self.tourney["Lteam"] == int(team_1)) & (self.tourney["Wteam"] == int(team_2))]
+        game_played_team_1_win = self.tourney[(self.tourney["WTeamID"] == int(team_1)) & (self.tourney["LTeamID"] == int(team_2))]
+        game_played_team_2_win = self.tourney[(self.tourney["LTeamID"] == int(team_1)) & (self.tourney["WTeamID"] == int(team_2))]
         
         # extract winner and loser
         if game_played_team_1_win.shape[0] == 1:
             winning_team = team_1
-            scoring_dif = game_played_team_1_win["Wscore"] - game_played_team_1_win["Lscore"]                                
+            scoring_dif = game_played_team_1_win["WScore"] - game_played_team_1_win["LScore"]                                
         elif game_played_team_2_win.shape[0] == 1:
             winning_team = team_2
-            scoring_dif = game_played_team_2_win["Wscore"] - game_played_team_2_win["Lscore"]       
+            scoring_dif = game_played_team_2_win["WScore"] - game_played_team_2_win["LScore"]       
         else:
             print("Error")
             return -1
@@ -57,8 +57,8 @@ class MarkovPredictor(object):
         team_2 = int(team_2)
         
         # lookup the pi values in the lookup table
-        team_1_pi_i = self.data.loc[self.data["Team"] == team_1, "pi_i"].values[0]
-        team_2_pi_i = self.data.loc[self.data["Team"] == team_2, "pi_i"].values[0]
+        team_1_pi_i = self.data.loc[self.data["TeamID"] == team_1, "pi_i"].values[0]
+        team_2_pi_i = self.data.loc[self.data["TeamID"] == team_2, "pi_i"].values[0]
         
         if team_1_pi_i > team_2_pi_i:
             return team_1
@@ -160,8 +160,8 @@ class ModelPredictor(object):
     # gets seeds of team 1 and team 2
     def __get_seeds(self, team_1, team_2):
         # get the seeds to see which team is the underdog
-        team_1_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == team_1, "Seed"].values[0]
-        team_2_seed_str = self.seeds_df.loc[self.seeds_df["Team"] == team_2, "Seed"].values[0]
+        team_1_seed_str = self.seeds_df.loc[self.seeds_df["TeamID"] == team_1, "Seed"].values[0]
+        team_2_seed_str = self.seeds_df.loc[self.seeds_df["TeamID"] == team_2, "Seed"].values[0]
 
         # convert the seeds to ints for comparieson
         team_1_seed = int(team_1_seed_str[1:3])
