@@ -30,6 +30,8 @@ def generate_multiple_years_of_games(years,
     # iterate years
     for year in years:
         year_index = int(year) - min_year
+        print(year_index)
+        print(year)
         # generate 1 year of data
         pred_df, resp_arr = generate_single_year_of_games(year, 
                                                           seed_list_arr[year_index], 
